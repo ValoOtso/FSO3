@@ -6,6 +6,8 @@ app.use(bodyParser.json())
 const morgan = require('morgan')
 app.use(morgan(':method :url :body'))
 app.use(cors())
+morgan.token('body', request => JSON.stringify(request.body))
+
 
 
 let persons = [
@@ -86,7 +88,6 @@ app.post('/api/persons', (request, response) => {
         number: body.number,
         id: generateId()
     }
-    morgan.token('body', request => JSON.stringify(request.body))
     app.use(morgan('body'))
 
     persons = persons.concat(person)
@@ -100,6 +101,7 @@ app.get('/info', (request, response) => {
 })
 
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
