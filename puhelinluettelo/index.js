@@ -2,7 +2,9 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
-app.use(express.json(''))
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan(':method :url :body'))
 app.use(cors())
 
