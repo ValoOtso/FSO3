@@ -3,11 +3,6 @@ const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 
-if (process.argv.length < 3) {
-  console.log('give password as argument')
-  process.exit(1)
-}
-
 console.log('connecting to', url)
 mongoose.connect(url)
   .then(result => {
@@ -16,11 +11,6 @@ mongoose.connect(url)
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
   })
-
-
-const password = process.argv[2]
-
-//const url = `mongodb+srv://valo:${password}@cluster0.iwaadsv.mongodb.net/Puhelinluettelo?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.set('strictQuery', false)
 
@@ -34,14 +24,11 @@ const personSchema = new mongoose.Schema({
 })
 
 personSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-  })
-
-const Person = mongoose.model('Person', personSchema)
-//MONGOOSEN MÄÄRITTELY PÄÄTTYY
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 
 module.exports = mongoose.model('Person', personSchema)
