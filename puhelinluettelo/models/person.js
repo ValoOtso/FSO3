@@ -25,7 +25,11 @@ const password = process.argv[2]
 mongoose.set('strictQuery', false)
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true
+  },
   number: String,
 })
 
